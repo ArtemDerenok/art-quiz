@@ -1,23 +1,9 @@
-class MainPage {
-  constructor(idPage) {
-    this._container = document.createElement('div');
-    this._container.classList.add('container');
-    this._container.classList.add('d-flex');
-    this._container.classList.add('flex-column');
-    this._container.id = idPage;
-    this._header = document.createElement('div');
-    this._logo = document.createElement('img');
-    this._main = document.createElement('div');
-    this._settingButton = document.createElement('button');
-  }
+import Page from '../templates/page';
 
-  _createHeader() {
-    this._header.classList.add('text-center');
-    this._header.classList.add('pt-5');
-    this._logo.classList.add('rounded');
-    this._logo.src = 'logo.png';
-    this._header.append(this._logo);
-    return this._header;
+class MainPage extends Page {
+  constructor(idPage) {
+    super(idPage);
+    this._settingButton = document.createElement('button');
   }
 
   _createMainContent() {
@@ -43,6 +29,7 @@ class MainPage {
     this._container.append(this._createMainContent());
     this._settingButton.textContent = 'SETTINGS';
     this._settingButton.classList.add('setting-btn');
+    this._settingButton.id = 'setting-button';
     this._container.append(this._settingButton);
     return this._container;
   }
