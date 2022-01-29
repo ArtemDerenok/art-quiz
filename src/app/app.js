@@ -1,3 +1,4 @@
+import CategoryPage from './pages/categoryPage';
 import MainPage from './pages/mainPage';
 import SettingPage from './pages/settingPage';
 
@@ -19,9 +20,33 @@ class App {
     });
   }
 
+  _openCategory() {
+    const categoryBtns = document.getElementById('category-btns');
+    categoryBtns.addEventListener('click', (event) => {
+      if (event.target.closest('div[id]')) {
+        App.clearContainer();
+        this._body.append(new CategoryPage('category-page').render());
+        this._handleCategoryNavButton();
+      }
+    });
+  }
+
+  _handleCategoryNavButton() {
+    const heading = document.getElementById('category-heading');
+    heading.addEventListener('click', (event) => {
+      if (event.target.id === 'home-button') {
+        App.clearContainer();
+        this._body.append(new MainPage('main-page').render());
+        this._openSettengs();
+        this._openCategory();
+      }
+    });
+  }
+
   runApp() {
     this._body.append(new MainPage('main-page').render());
     this._openSettengs();
+    this._openCategory();
   }
 }
 

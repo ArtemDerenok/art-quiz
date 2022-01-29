@@ -33,3 +33,65 @@ body {
   position: relative;
   align-self: center;
 }
+
+.home-btn::before {
+  background-image: url('../assets/home-btn.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+  display: block;
+  height: 35px;
+  left: 10px;
+  position: absolute;
+  top: 7px;
+  width: 40px;
+}
+
+.home-btn {
+  border: none;
+  outline: none;
+  background-color: #660033;
+  color: white;
+  width: 150px;
+  height: 50px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: right;
+  text-transform: uppercase;
+  position: relative;
+  align-self: center;
+}
+
+.score-btn::before {
+  background-image: url('../assets/score-btn.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  content: "";
+  display: block;
+  height: 37px;
+  left: 10px;
+  position: absolute;
+  top: 5px;
+  width: 40px;
+}
+
+.score-btn {
+  border: none;
+  outline: none;
+  background-color: #660033;
+  color: white;
+  width: 150px;
+  height: 50px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: right;
+  text-transform: uppercase;
+  position: relative;
+  align-self: center;
+}
