@@ -1,4 +1,6 @@
+import categoriesDataArr from '../../utils/categoriesData';
 import Button from '../components/button';
+import CategoryCard from '../components/categoryCard';
 import Page from '../templates/page';
 
 class CategoryPage extends Page {
@@ -6,6 +8,16 @@ class CategoryPage extends Page {
     super(idPage);
     this._headingContainer = document.createElement('div');
     this._heading = document.createElement('h3');
+  }
+
+  static createRows() {
+    const result = [];
+    for (let i = 0; i < Math.ceil(categoriesDataArr.length / 5); i += 1) {
+      const row = document.createElement('div');
+      row.classList.add('row', 'pb-3');
+      result.push(row);
+    }
+    return result;
   }
 
   _createHeading() {
@@ -20,7 +32,16 @@ class CategoryPage extends Page {
   }
 
   _createMainContent() {
-    this._main.textContent = 'Category Page';
+    this._main.classList.add('container');
+    const rows = CategoryPage.createRows();
+    let cnt = 0;
+    categoriesDataArr.forEach((elem, index) => {
+      rows[cnt].append(new CategoryCard(elem, index + 1).render());
+      if ((index + 1) % 5 === 0) {
+        cnt += 1;
+      }
+    });
+    this._main.append(...rows);
     return this._main;
   }
 
