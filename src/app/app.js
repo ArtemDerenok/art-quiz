@@ -1,6 +1,7 @@
 import CategoryPage from './pages/categoryPage';
 import MainPage from './pages/mainPage';
 import SettingPage from './pages/settingPage';
+import CategoryStatistics from './statistics/categoryStatistics';
 
 class App {
   constructor() {
@@ -47,6 +48,7 @@ class App {
     this._body.append(new MainPage('main-page').render());
     this._openSettengs();
     this._openCategory();
+    new CategoryStatistics().setLocalStorage();
   }
 }
 

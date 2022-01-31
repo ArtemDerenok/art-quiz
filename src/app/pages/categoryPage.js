@@ -1,4 +1,4 @@
-import categoriesDataArr from '../../utils/categoriesData';
+import { categoriesDataArr } from '../data/categoriesData';
 import Button from '../components/button';
 import CategoryCard from '../components/categoryCard';
 import Page from '../templates/page';
