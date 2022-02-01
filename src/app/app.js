@@ -26,7 +26,9 @@ class App {
     categoryBtns.addEventListener('click', (event) => {
       if (event.target.closest('div[id]')) {
         App.clearContainer();
-        this._body.append(new CategoryPage('category-page').render());
+        this._body.append(
+          new CategoryPage('category-page', event.target.closest('div[id]').id).render()
+        );
         this._handleCategoryNavButton();
       }
     });

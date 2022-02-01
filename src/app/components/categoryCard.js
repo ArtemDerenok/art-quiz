@@ -1,7 +1,9 @@
 import CategoryStatistics from '../statistics/categoryStatistics';
 
 class CategoryCard {
-  constructor(title, number) {
+  _count;
+
+  constructor(title, number, gameMode) {
     this._card = document.createElement('div');
     this._card.classList.add('col');
     this._title = title;
@@ -10,7 +12,7 @@ class CategoryCard {
     this._number = number;
     this._colorSrc = `category-${this._number}-color.png`;
     this._graySrc = `category-${this._number}-grayscale.png`;
-    this._count = new CategoryStatistics().statistics[title].count;
+    this._gameMode = gameMode;
   }
 
   _checkCount() {
@@ -20,7 +22,16 @@ class CategoryCard {
     return this._graySrc;
   }
 
+  _getCount() {
+    if (this._gameMode === 'artist-category') {
+      this._count = new CategoryStatistics().statistics[this._title].countArtistMode;
+    } else {
+      this._count = new CategoryStatistics().statistics[this._title].countPictureMode;
+    }
+  }
+
   render() {
+    this._getCount();
     this._card.innerHTML += `<div class="card">
       <img src="${this._checkCount()}" class="card-img-top" alt="...">
       <div class="card-body">

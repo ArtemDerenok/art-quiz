@@ -4,10 +4,11 @@ import CategoryCard from '../components/categoryCard';
 import Page from '../templates/page';
 
 class CategoryPage extends Page {
-  constructor(idPage) {
+  constructor(idPage, gameMode) {
     super(idPage);
     this._headingContainer = document.createElement('div');
     this._heading = document.createElement('h3');
+    this._gameMode = gameMode;
   }
 
   static createRows() {
@@ -36,7 +37,7 @@ class CategoryPage extends Page {
     const rows = CategoryPage.createRows();
     let cnt = 0;
     categoriesDataArr.forEach((elem, index) => {
-      rows[cnt].append(new CategoryCard(elem, index + 1).render());
+      rows[cnt].append(new CategoryCard(elem, index + 1, this._gameMode).render());
       if ((index + 1) % 5 === 0) {
         cnt += 1;
       }
