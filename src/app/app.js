@@ -1,6 +1,7 @@
 import CategoryPage from './pages/categoryPage';
 import MainPage from './pages/mainPage';
 import SettingPage from './pages/settingPage';
+import Quiz from './quiz/quiz';
 import CategoryStatistics from './statistics/categoryStatistics';
 
 class App {
@@ -21,15 +22,29 @@ class App {
     });
   }
 
+  static setGameMode(mode) {
+    localStorage.setItem('gameModeQuiz', mode);
+  }
+
+  _handleQuizStart() {
+    const categoriesContainer = document.getElementById('categories-container');
+    categoriesContainer.addEventListener('click', (event) => {
+      if (event.target.closest('div[data-title]')) {
+        App.clearContainer();
+        new Quiz(event.target.closest('div[data-title]').dataset.title).runQuiz();
+      }
+    });
+  }
+
   _openCategory() {
     const categoryBtns = document.getElementById('category-btns');
     categoryBtns.addEventListener('click', (event) => {
       if (event.target.closest('div[id]')) {
+        App.setGameMode(event.target.closest('div[id]').id);
         App.clearContainer();
-        this._body.append(
-          new CategoryPage('category-page', event.target.closest('div[id]').id).render()
-        );
+        this._body.append(new CategoryPage('category-page').render());
         this._handleCategoryNavButton();
+        this._handleQuizStart();
       }
     });
   }

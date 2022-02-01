@@ -53,7 +53,7 @@ module.exports = {
           noErrorOnMissing: true,
         },
         {
-          from: path.resolve(__dirname, "./src/data/quotes.json"),
+          from: path.resolve(__dirname, "./src/app/data/questions.json"),
           to: path.resolve(__dirname, "./dist"),
           noErrorOnMissing: true,
         }
