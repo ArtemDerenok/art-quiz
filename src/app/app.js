@@ -1,7 +1,7 @@
 import CategoryPage from './pages/categoryPage';
 import MainPage from './pages/mainPage';
 import SettingPage from './pages/settingPage';
-import Quiz from './quiz/quiz';
+import QuizControler from './quiz/quizControler';
 import CategoryStatistics from './statistics/categoryStatistics';
 
 class App {
@@ -31,7 +31,7 @@ class App {
     categoriesContainer.addEventListener('click', (event) => {
       if (event.target.closest('div[data-title]')) {
         App.clearContainer();
-        new Quiz(event.target.closest('div[data-title]').dataset.title).runQuiz();
+        new QuizControler(event.target.closest('div[data-title]').dataset.title).startQuiz();
       }
     });
   }
