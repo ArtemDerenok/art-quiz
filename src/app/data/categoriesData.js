@@ -1,7 +1,7 @@
 export const categoriesStatistics = {
   portrait: {
-    countPictureMode: 1,
-    countArtistMode: 2,
+    countPictureMode: 0,
+    countArtistMode: 0,
   },
   landscape: {
     countPictureMode: 0,

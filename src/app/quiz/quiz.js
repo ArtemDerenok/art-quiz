@@ -1,6 +1,9 @@
 /* eslint-disable no-continue */
+import { Modal } from 'bootstrap';
 import getRandomNum from '../../utils/getRandomNum';
+import AnswerModalWindow from '../components/answerModalWindow';
 import Question from './question';
+import QuizModel from './quizModel';
 
 class Quiz {
   _rightAnswer;
@@ -68,10 +71,11 @@ class Quiz {
     this._body.append(this._main);
     this._wrongAnswers = [];
     this._setRightAnswer();
+    console.log(this._rightAnswer);
     this._currentQuestion += 1;
   }
 
-  _nexQuestion() {
+  _nextQuestion() {
     this._clearContainer();
     this._getWrongAnswers();
     this._main.append(
@@ -86,20 +90,22 @@ class Quiz {
     this._body.append(this._main);
     this._wrongAnswers = [];
     this._setRightAnswer();
+    console.log(this._rightAnswer);
+    this._main.append(new AnswerModalWindow(this._questions[this._currentQuestion - 1]).render());
+    const myModal = new Modal(document.getElementById('myModal'));
+    myModal.show();
     this._currentQuestion += 1;
-  }
-
-  handleNexQuestion() {
-    const elem = document.querySelector('.quiz-logo');
-    elem.addEventListener('click', () => {
-      this._nexQuestion();
-    });
   }
 
   runQuiz() {
     this._renderQuestion();
-    this.handleNexQuestion();
-    return this._rightAnswer;
+    new QuizModel().subscribe(this);
+  }
+
+  update(action) {
+    if (action === 'nextQuestion') {
+      this._nextQuestion();
+    }
   }
 }
 

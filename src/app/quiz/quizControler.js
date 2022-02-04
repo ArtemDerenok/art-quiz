@@ -7,8 +7,6 @@ class QuizControler {
 
   _questions;
 
-  _rightAnswer;
-
   constructor(categoryName) {
     if (QuizControler._instance) {
       return QuizControler._instance;
@@ -22,17 +20,14 @@ class QuizControler {
     const quizContainer = document.getElementById('quiz-container');
     quizContainer.addEventListener('click', (event) => {
       if (event.target.closest('.card')) {
-        new QuizModel().checkAnswer(
-          event.target.closest('.card').dataset.answer,
-          this._rightAnswer
-        );
+        new QuizModel().checkAnswer(event.target.closest('.card').dataset.answer);
       }
     });
   }
 
   async startQuiz() {
     this._questions = await new QuizModel().getQuestions();
-    this._rightAnswer = new Quiz(this._categoryName, this._questions).runQuiz();
+    new Quiz(this._categoryName, this._questions).runQuiz();
     this._handleAnswers();
   }
 }
