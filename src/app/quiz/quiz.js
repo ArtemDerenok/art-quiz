@@ -1,5 +1,5 @@
-/* eslint-disable no-continue */
 import { Modal } from 'bootstrap';
+import checkGameMode from '../../utils/checkGameMode';
 import getRandomNum from '../../utils/getRandomNum';
 import AnswerModalWindow from '../components/answerModalWindow';
 import Question from './question';
@@ -14,9 +14,10 @@ class Quiz {
     this._main = document.createElement('div');
     this._body = document.body;
     this._header = document.createElement('div');
-    this._main.classList.add('container');
+    this._main.classList.add('container', 'p-4');
     this._main.id = 'quiz-container';
     this._currentQuestion = 0;
+    this._heading = '';
     this._wrongAnswers = [];
   }
 
@@ -33,9 +34,9 @@ class Quiz {
   }
 
   _setRightAnswer() {
-    if (localStorage.getItem('gameModeQuiz') === 'artist-category') {
+    if (checkGameMode() === 'artist') {
       this._rightAnswer = this._questions[this._currentQuestion].author;
-    } else if (localStorage.getItem('gameModeQuiz') === 'pictures-category') {
+    } else if (checkGameMode() === 'picture') {
       this._rightAnswer = this._questions[this._currentQuestion].name;
     }
   }
@@ -52,7 +53,12 @@ class Quiz {
 
   _rednerHeader() {
     this._header.classList.add('container');
-    this._header.innerHTML = `<div class="row"><img src="logo.png" class="col quiz-logo"></img><h3 class="col">Who is the author of this picture?</h3><div class="col"><img src="timer-picture.png" class="quiz-timer-logo"></img></div></div>`;
+    if (checkGameMode() === 'artist') {
+      this._heading = 'Who is the author of this picture?';
+    } else {
+      this._heading = 'What is the name of this picture?';
+    }
+    this._header.innerHTML = `<div class="row flex-row align-items-center justify-content-center p-2"><img src="logo.png" class="col-1 quiz-logo"></img><h3 class="col-6 text-center">${this._heading}</h3><div class="col-1"><img src="timer-picture.png" class="quiz-timer-logo"></img></div></div>`;
     return this._header;
   }
 
@@ -75,7 +81,7 @@ class Quiz {
     this._currentQuestion += 1;
   }
 
-  _nextQuestion() {
+  _nextQuestion(result) {
     this._clearContainer();
     this._getWrongAnswers();
     this._main.append(
@@ -91,7 +97,10 @@ class Quiz {
     this._wrongAnswers = [];
     this._setRightAnswer();
     console.log(this._rightAnswer);
-    this._main.append(new AnswerModalWindow(this._questions[this._currentQuestion - 1]).render());
+    console.log(result);
+    this._main.append(
+      new AnswerModalWindow(this._questions[this._currentQuestion - 1], result).render()
+    );
     const myModal = new Modal(document.getElementById('myModal'));
     myModal.show();
     this._currentQuestion += 1;
@@ -102,9 +111,9 @@ class Quiz {
     new QuizModel().subscribe(this);
   }
 
-  update(action) {
+  update({ action, result }) {
     if (action === 'nextQuestion') {
-      this._nextQuestion();
+      this._nextQuestion(result);
     }
   }
 }

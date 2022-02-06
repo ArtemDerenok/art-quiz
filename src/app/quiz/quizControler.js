@@ -1,4 +1,3 @@
-/* eslint-disable no-constructor-return */
 import Quiz from './quiz';
 import QuizModel from './quizModel';
 
@@ -26,7 +25,7 @@ class QuizControler {
   }
 
   async startQuiz() {
-    this._questions = await new QuizModel().getQuestions();
+    this._questions = await new QuizModel(this._categoryName).getQuestions();
     new Quiz(this._categoryName, this._questions).runQuiz();
     this._handleAnswers();
   }

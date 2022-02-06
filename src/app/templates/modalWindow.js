@@ -5,11 +5,13 @@ class ModalWindow {
     this._modalContent = document.createElement('div');
     this._modalBody = document.createElement('div');
     this._modalFooter = document.createElement('div');
+    this._modalHeader = document.createElement('div');
     this._container.classList.add('modal', 'fade');
     this._modalDialog.classList.add('modal-dialog', 'modal-lg');
     this._modalContent.classList.add('modal-content');
-    this._modalBody.classList.add('modal-body');
+    this._modalBody.classList.add('modal-body', 'text-center');
     this._modalFooter.classList.add('modal-footer', 'justify-content-center');
+    this._modalHeader.classList.add('modal-header', 'mx-auto');
   }
 
   render() {

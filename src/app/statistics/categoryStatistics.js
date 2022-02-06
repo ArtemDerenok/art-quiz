@@ -1,6 +1,5 @@
 import { categoriesStatistics } from '../data/categoriesData';
 
-/* eslint-disable no-constructor-return */
 class CategoryStatistics {
   static _instance;
 
@@ -15,6 +14,11 @@ class CategoryStatistics {
 
   _getLocalStorage() {
     this.statistics = JSON.parse(localStorage.getItem('categoryStatistics'));
+  }
+
+  updateLocalStorage() {
+    const jsonStatistics = JSON.stringify(this.statistics);
+    localStorage.setItem('categoryStatistics', jsonStatistics);
   }
 
   setLocalStorage() {

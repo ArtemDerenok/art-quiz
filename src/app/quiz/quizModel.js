@@ -1,14 +1,16 @@
-/* eslint-disable no-constructor-return */
+import checkGameMode from '../../utils/checkGameMode';
 import getRandomNum from '../../utils/getRandomNum';
 import getQuestions from '../api/api';
+import CategoryStatistics from '../statistics/categoryStatistics';
 
 class QuizModel {
   static _instance;
 
-  constructor() {
+  constructor(categoryName) {
     if (QuizModel._instance) {
       return QuizModel._instance;
     }
+    this._categoryName = categoryName;
     this._observers = [];
     this._questions = [];
     this._currentQuestion = 0;
@@ -27,25 +29,36 @@ class QuizModel {
     this._observers.forEach((obs) => obs.update(action));
   }
 
+  _updateStatistics(gameMode) {
+    if (gameMode === 'artist') {
+      new CategoryStatistics().statistics[this._categoryName].countArtistMode += 1;
+    } else {
+      new CategoryStatistics().statistics[this._categoryName].countPictureMode += 1;
+    }
+    new CategoryStatistics().updateLocalStorage();
+  }
+
   checkAnswer(answer) {
-    if (localStorage.getItem('gameModeQuiz') === 'artist-category') {
+    if (checkGameMode() === 'artist') {
       if (answer === this._questions[this._currentQuestion].author) {
         console.log('Correct');
-        this.emit('nextQuestion');
+        this.emit({ action: 'nextQuestion', result: true });
         this._currentQuestion += 1;
+        this._updateStatistics('artist');
       } else {
         console.log('Incorrect');
-        this.emit('nextQuestion');
+        this.emit({ action: 'nextQuestion', result: false });
         this._currentQuestion += 1;
       }
-    } else if (localStorage.getItem('gameModeQuiz') === 'pictures-category') {
+    } else if (checkGameMode() === 'picture') {
       if (answer === this._questions[this._currentQuestion].name) {
         console.log('Correct');
-        this.emit('nextQuestion');
+        this.emit({ action: 'nextQuestion', result: true });
         this._currentQuestion += 1;
+        this._updateStatistics('picture');
       } else {
         console.log('Incorrect');
-        this.emit('nextQuestion');
+        this.emit({ action: 'nextQuestion', result: false });
         this._currentQuestion += 1;
       }
     }
