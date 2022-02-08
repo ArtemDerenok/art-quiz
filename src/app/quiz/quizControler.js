@@ -26,6 +26,7 @@ class QuizControler {
 
   async startQuiz() {
     this._questions = await new QuizModel(this._categoryName).getQuestions();
+    new QuizModel().resetStatistics();
     new Quiz(this._categoryName, this._questions).runQuiz();
     this._handleAnswers();
   }

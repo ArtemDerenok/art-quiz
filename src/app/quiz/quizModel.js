@@ -14,6 +14,7 @@ class QuizModel {
     this._observers = [];
     this._questions = [];
     this._currentQuestion = 0;
+    this._tottalRightAnswers = 0;
     QuizModel._instance = this;
   }
 
@@ -25,7 +26,7 @@ class QuizModel {
     this._observers = this._observers.filter((obs) => obs !== observer);
   }
 
-  emit(action) {
+  _emit(action) {
     this._observers.forEach((obs) => obs.update(action));
   }
 
@@ -35,31 +36,66 @@ class QuizModel {
     } else {
       new CategoryStatistics().statistics[this._categoryName].countPictureMode += 1;
     }
+    this._tottalRightAnswers += 1;
+  }
+
+  resetStatistics() {
+    if (checkGameMode() === 'artist') {
+      new CategoryStatistics().statistics[this._categoryName].countArtistMode = 0;
+    } else {
+      new CategoryStatistics().statistics[this._categoryName].countPictureMode = 0;
+    }
+  }
+
+  _finishGame() {
+    this._emit({ action: 'finishGame', result: this._tottalRightAnswers });
     new CategoryStatistics().updateLocalStorage();
+    this._currentQuestion = 0;
+    this._tottalRightAnswers = 0;
   }
 
   checkAnswer(answer) {
     if (checkGameMode() === 'artist') {
       if (answer === this._questions[this._currentQuestion].author) {
         console.log('Correct');
-        this.emit({ action: 'nextQuestion', result: true });
-        this._currentQuestion += 1;
-        this._updateStatistics('artist');
+        if (this._currentQuestion === 9) {
+          this._updateStatistics('artist');
+          this._finishGame();
+        } else {
+          this._updateStatistics('artist');
+          this._emit({ action: 'nextQuestion', result: true });
+          this._currentQuestion += 1;
+        }
+        console.log(this._currentQuestion);
       } else {
         console.log('Incorrect');
-        this.emit({ action: 'nextQuestion', result: false });
-        this._currentQuestion += 1;
+        if (this._currentQuestion === 9) {
+          this._finishGame();
+        } else {
+          this._emit({ action: 'nextQuestion', result: false });
+          this._currentQuestion += 1;
+        }
       }
     } else if (checkGameMode() === 'picture') {
       if (answer === this._questions[this._currentQuestion].name) {
         console.log('Correct');
-        this.emit({ action: 'nextQuestion', result: true });
-        this._currentQuestion += 1;
-        this._updateStatistics('picture');
+        if (this._currentQuestion === 9) {
+          this._updateStatistics('picture');
+          this._updateStatistics();
+          this._finishGame();
+        } else {
+          this._updateStatistics('picture');
+          this._emit({ action: 'nextQuestion', result: true });
+          this._currentQuestion += 1;
+        }
       } else {
         console.log('Incorrect');
-        this.emit({ action: 'nextQuestion', result: false });
-        this._currentQuestion += 1;
+        if (this._currentQuestion === 9) {
+          this._finishGame();
+        } else {
+          this._emit({ action: 'nextQuestion', result: false });
+          this._currentQuestion += 1;
+        }
       }
     }
   }

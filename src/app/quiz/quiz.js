@@ -62,26 +62,16 @@ class Quiz {
     return this._header;
   }
 
-  _renderQuestion() {
-    this._getWrongAnswers();
+  _showAnswerModal(resultAnswer) {
+    console.log(resultAnswer);
     this._main.append(
-      new Question(
-        this._questions[this._currentQuestion].imageNum,
-        this._questions[this._currentQuestion].author,
-        this._questions[this._currentQuestion].name,
-        this._questions[this._currentQuestion].year,
-        this._wrongAnswers
-      ).render()
+      new AnswerModalWindow(this._questions[this._currentQuestion - 2], resultAnswer).render()
     );
-    this._body.append(this._rednerHeader());
-    this._body.append(this._main);
-    this._wrongAnswers = [];
-    this._setRightAnswer();
-    console.log(this._rightAnswer);
-    this._currentQuestion += 1;
+    const myModal = new Modal(document.getElementById('myModal'));
+    myModal.show();
   }
 
-  _nextQuestion(result) {
+  _nextQuestion() {
     this._clearContainer();
     this._getWrongAnswers();
     this._main.append(
@@ -97,13 +87,16 @@ class Quiz {
     this._wrongAnswers = [];
     this._setRightAnswer();
     console.log(this._rightAnswer);
-    console.log(result);
-    this._main.append(
-      new AnswerModalWindow(this._questions[this._currentQuestion - 1], result).render()
-    );
-    const myModal = new Modal(document.getElementById('myModal'));
-    myModal.show();
     this._currentQuestion += 1;
+  }
+
+  _renderQuestion() {
+    this._body.append(this._rednerHeader());
+    this._nextQuestion();
+  }
+
+  _showFinishModalWindow(result) {
+    console.log(`finish game. Result: ${result}`);
   }
 
   runQuiz() {
@@ -114,6 +107,11 @@ class Quiz {
   update({ action, result }) {
     if (action === 'nextQuestion') {
       this._nextQuestion(result);
+      this._showAnswerModal(result);
+    }
+    if (action === 'finishGame') {
+      this._showFinishModalWindow(result);
+      new QuizModel().unsubscribe(this);
     }
   }
 }
