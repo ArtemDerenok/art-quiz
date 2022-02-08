@@ -6,11 +6,11 @@ import CategoryStatistics from '../statistics/categoryStatistics';
 class QuizModel {
   static _instance;
 
-  constructor(categoryName) {
+  constructor() {
     if (QuizModel._instance) {
       return QuizModel._instance;
     }
-    this._categoryName = categoryName;
+    this._categoryName = '';
     this._observers = [];
     this._questions = [];
     this._currentQuestion = 0;
@@ -113,6 +113,7 @@ class QuizModel {
   }
 
   _createArrayQuestions(questions) {
+    this._questions = [];
     for (let i = 0; i < 10; i += 1) {
       let randomNumber = getRandomNum(0, questions.length - 1);
       if (
@@ -127,7 +128,8 @@ class QuizModel {
     }
   }
 
-  async getQuestions() {
+  async getQuestions(categoryName) {
+    this._categoryName = categoryName;
     const questions = await getQuestions();
     this._createArrayQuestions(questions);
     return this._questions;

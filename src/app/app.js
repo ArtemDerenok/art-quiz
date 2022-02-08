@@ -1,3 +1,4 @@
+import { categoriesDataArr } from './data/categoriesData';
 import CategoryPage from './pages/categoryPage';
 import MainPage from './pages/mainPage';
 import SettingPage from './pages/settingPage';
@@ -7,6 +8,7 @@ import CategoryStatistics from './statistics/categoryStatistics';
 class App {
   constructor() {
     this._body = document.body;
+    this._categoryNumber = 0;
   }
 
   static clearContainer() {
@@ -26,12 +28,34 @@ class App {
     localStorage.setItem('gameModeQuiz', mode);
   }
 
+  _handleFinishQuizButtons() {
+    const quizContainer = document.getElementById('quiz-container');
+    quizContainer.addEventListener('click', (event) => {
+      if (event.target.closest('#home-button')) {
+        this._body.innerHTML = '';
+        this._body.append(new MainPage('main-page').render());
+        this._openSettengs();
+        this._openCategory();
+      }
+      if (event.target.closest('#next-quiz-button')) {
+        this._categoryNumber += 1;
+        this._body.innerHTML = '';
+        new QuizControler()
+          .startQuiz(categoriesDataArr[this._categoryNumber])
+          .then(() => this._handleFinishQuizButtons());
+      }
+    });
+  }
+
   _handleQuizStart() {
     const categoriesContainer = document.getElementById('categories-container');
     categoriesContainer.addEventListener('click', (event) => {
       if (event.target.closest('div[data-title]')) {
+        this._categoryNumber = +event.target.closest('div[data-title]').dataset.title;
         App.clearContainer();
-        new QuizControler(event.target.closest('div[data-title]').dataset.title).startQuiz();
+        new QuizControler()
+          .startQuiz(categoriesDataArr[this._categoryNumber])
+          .then(() => this._handleFinishQuizButtons());
       }
     });
   }

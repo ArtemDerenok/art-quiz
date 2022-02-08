@@ -2,6 +2,7 @@ import { Modal } from 'bootstrap';
 import checkGameMode from '../../utils/checkGameMode';
 import getRandomNum from '../../utils/getRandomNum';
 import AnswerModalWindow from '../components/answerModalWindow';
+import FinishGameModalWindow from '../components/finishGameModalWindow';
 import Question from './question';
 import QuizModel from './quizModel';
 
@@ -63,7 +64,6 @@ class Quiz {
   }
 
   _showAnswerModal(resultAnswer) {
-    console.log(resultAnswer);
     this._main.append(
       new AnswerModalWindow(this._questions[this._currentQuestion - 2], resultAnswer).render()
     );
@@ -95,8 +95,12 @@ class Quiz {
     this._nextQuestion();
   }
 
-  _showFinishModalWindow(result) {
-    console.log(`finish game. Result: ${result}`);
+  _showFinishModalWindow(resultAnswers) {
+    this._clearContainer();
+    console.log(`finish game. Result: ${resultAnswers}`);
+    this._main.append(new FinishGameModalWindow(resultAnswers).render());
+    const myModal = new Modal(document.getElementById('myModal'));
+    myModal.show();
   }
 
   runQuiz() {

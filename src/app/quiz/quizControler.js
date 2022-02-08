@@ -6,13 +6,17 @@ class QuizControler {
 
   _questions;
 
-  constructor(categoryName) {
+  constructor() {
     if (QuizControler._instance) {
       return QuizControler._instance;
     }
-    this._categoryName = categoryName;
-
+    this._categoryName = '';
+    this._body = document.body;
     QuizControler._instance = this;
+  }
+
+  _clearContainer() {
+    this._body.innerHTML = '';
   }
 
   _handleAnswers() {
@@ -24,8 +28,9 @@ class QuizControler {
     });
   }
 
-  async startQuiz() {
-    this._questions = await new QuizModel(this._categoryName).getQuestions();
+  async startQuiz(categoryName) {
+    this._categoryName = categoryName;
+    this._questions = await new QuizModel().getQuestions(this._categoryName);
     new QuizModel().resetStatistics();
     new Quiz(this._categoryName, this._questions).runQuiz();
     this._handleAnswers();
