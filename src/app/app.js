@@ -11,15 +11,14 @@ class App {
     this._categoryNumber = 0;
   }
 
-  static clearContainer() {
-    const container = document.querySelector('.container');
-    container.remove();
+  _clearContainer() {
+    this._body.innerHTML = '';
   }
 
   _openSettengs() {
     const settingsBtn = document.getElementById('setting-button');
     settingsBtn.addEventListener('click', () => {
-      App.clearContainer();
+      this._clearContainer();
       this._body.append(new SettingPage('settings-page').render());
     });
   }
@@ -31,15 +30,20 @@ class App {
   _handleFinishQuizButtons() {
     const quizContainer = document.getElementById('quiz-container');
     quizContainer.addEventListener('click', (event) => {
-      if (event.target.closest('#home-button')) {
-        this._body.innerHTML = '';
+      if (event.target.closest('#home-button') || event.target.closest('#myModalFinish')) {
+        this._clearContainer();
         this._body.append(new MainPage('main-page').render());
         this._openSettengs();
         this._openCategory();
       }
       if (event.target.closest('#next-quiz-button')) {
-        this._categoryNumber += 1;
-        this._body.innerHTML = '';
+        this._clearContainer();
+        this._body.append(new CategoryPage('category-page').render());
+        this._handleCategoryNavButton();
+        this._handleQuizStart();
+      }
+      if (event.target.closest('#yes-button')) {
+        this._clearContainer();
         new QuizControler()
           .startQuiz(categoriesDataArr[this._categoryNumber])
           .then(() => this._handleFinishQuizButtons());
@@ -52,7 +56,7 @@ class App {
     categoriesContainer.addEventListener('click', (event) => {
       if (event.target.closest('div[data-title]')) {
         this._categoryNumber = +event.target.closest('div[data-title]').dataset.title;
-        App.clearContainer();
+        this._clearContainer();
         new QuizControler()
           .startQuiz(categoriesDataArr[this._categoryNumber])
           .then(() => this._handleFinishQuizButtons());
@@ -65,7 +69,7 @@ class App {
     categoryBtns.addEventListener('click', (event) => {
       if (event.target.closest('div[id]')) {
         App.setGameMode(event.target.closest('div[id]').id);
-        App.clearContainer();
+        this._clearContainer();
         this._body.append(new CategoryPage('category-page').render());
         this._handleCategoryNavButton();
         this._handleQuizStart();
@@ -77,7 +81,7 @@ class App {
     const heading = document.getElementById('category-heading');
     heading.addEventListener('click', (event) => {
       if (event.target.id === 'home-button') {
-        App.clearContainer();
+        this._clearContainer();
         this._body.append(new MainPage('main-page').render());
         this._openSettengs();
         this._openCategory();

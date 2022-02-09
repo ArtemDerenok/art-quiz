@@ -99,7 +99,7 @@ class Quiz {
     this._clearContainer();
     console.log(`finish game. Result: ${resultAnswers}`);
     this._main.append(new FinishGameModalWindow(resultAnswers).render());
-    const myModal = new Modal(document.getElementById('myModal'));
+    const myModal = new Modal(document.getElementById('myModalFinish'));
     myModal.show();
   }
 
