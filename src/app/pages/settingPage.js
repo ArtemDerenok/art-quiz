@@ -1,3 +1,4 @@
+import Button from '../components/button';
 import Page from '../templates/page';
 
 class SettingPage extends Page {
@@ -7,11 +8,14 @@ class SettingPage extends Page {
     this._heading.textContent = 'SETTINGS';
     this._heading.classList.add('text-center', 'p-3');
     this._buttonsContainer = document.createElement('div');
+    this._saveButton = new Button('simple-btn', 'save-button', 'save').render();
+    this._defaultButton = new Button('simple-btn', 'default-button', 'default').render();
   }
 
   _createControlButtons() {
     this._buttonsContainer.classList.add('row', 'justify-content-center', 'gap-2', 'p-5');
-    this._buttonsContainer.innerHTML = `<button type="button" class="btn btn-danger col-1" id="save-setting-btn">SAVE</button><button type="button" class="btn btn-danger col-1" id="default-setting-btn">DEFAULTS</button>`;
+    this._buttonsContainer.append(this._saveButton);
+    this._buttonsContainer.append(this._defaultButton);
     return this._buttonsContainer;
   }
 
