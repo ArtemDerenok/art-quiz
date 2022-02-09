@@ -14,6 +14,7 @@ class SettingPage extends Page {
 
   _createControlButtons() {
     this._buttonsContainer.classList.add('row', 'justify-content-center', 'gap-2', 'p-5');
+    this._buttonsContainer.id = 'settings-buttons-container';
     this._buttonsContainer.append(this._saveButton);
     this._buttonsContainer.append(this._defaultButton);
     return this._buttonsContainer;
@@ -23,20 +24,20 @@ class SettingPage extends Page {
     this._main.classList.add('row', 'justify-content-around');
     this._main.innerHTML = `<div class="col-3 d-flex flex-column align-items-center gap-5 bg-light rounded">
       <img src="volume-on.png" class="pt-3"></img>
-      <input type="range" class="form-range" id="customRange1">
+      <input type="range" class="form-range" id="input-sound-value" value="0">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-        <label class="form-check-label" for="flexCheckDefault">
+        <input class="form-check-input" type="checkbox" id="checkbox-volume">
+        <label class="form-check-label" for="checkbox-volume">
           ON/OFF
         </label>
       </div>
       <h3>VOLUME</h3></div>
     <div class="col-3 d-flex flex-column align-items-center gap-5 bg-light rounded">
       <img src="timer-picture.png" class="pt-3"></img>
-      <input type="range" class="form-range" min="1" max="10" id="customRange2">
+      <input type="range" class="form-range" min="1" max="10" id="input-time-value" value="1">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-        <label class="form-check-label" for="flexCheckDefault">
+        <input class="form-check-input" type="checkbox" id="checkbox-timer">
+        <label class="form-check-label" for="checkbox-timer">
           ON/OFF
         </label>
       </div>

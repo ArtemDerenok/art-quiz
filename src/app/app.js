@@ -1,4 +1,5 @@
 import { categoriesDataArr } from './data/categoriesData';
+import SettingModel from './models/settingModel';
 import CategoryPage from './pages/categoryPage';
 import MainPage from './pages/mainPage';
 import SettingPage from './pages/settingPage';
@@ -20,6 +21,7 @@ class App {
     settingsBtn.addEventListener('click', () => {
       this._clearContainer();
       this._body.append(new SettingPage('settings-page').render());
+      this._handleSettings();
     });
   }
 
@@ -89,8 +91,42 @@ class App {
     });
   }
 
+  _handleSettings() {
+    const settingsButtons = document.getElementById('settings-buttons-container');
+    const soundCheckbox = document.getElementById('checkbox-volume');
+    const timerCheckbox = document.getElementById('checkbox-timer');
+    const inputSound = document.getElementById('input-sound-value');
+    const inputTime = document.getElementById('input-time-value');
+
+    settingsButtons.addEventListener('click', (event) => {
+      if (event.target.closest('#save-button')) {
+        console.log('save');
+      }
+      if (event.target.closest('#default-button')) {
+        console.log('default settings');
+      }
+    });
+
+    soundCheckbox.addEventListener('change', (event) => {
+      console.log(event.target.checked);
+    });
+
+    timerCheckbox.addEventListener('change', (event) => {
+      console.log(event.target.checked);
+    });
+
+    inputSound.addEventListener('change', (event) => {
+      console.log(event.target.value);
+    });
+
+    inputTime.addEventListener('change', (event) => {
+      console.log(event.target.value);
+    });
+  }
+
   runApp() {
     this._body.append(new MainPage('main-page').render());
+    new SettingModel().checkLocalStorage();
     this._openSettengs();
     this._openCategory();
     new CategoryStatistics().setLocalStorage();
