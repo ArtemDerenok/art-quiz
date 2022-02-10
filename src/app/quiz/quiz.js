@@ -9,6 +9,8 @@ import QuizModel from './quizModel';
 class Quiz {
   _rightAnswer;
 
+  _timer;
+
   constructor(categoryName, questionsArr) {
     this._questions = questionsArr;
     this._categoryName = categoryName;
@@ -20,6 +22,10 @@ class Quiz {
     this._currentQuestion = 0;
     this._heading = '';
     this._wrongAnswers = [];
+    this._gameSettings = JSON.parse(localStorage.getItem('settingsQuiz'));
+    this._timerContainer = document.createElement('div');
+    this._timerElement = document.createElement('span');
+    this._timerCount = this._gameSettings.timer.time;
   }
 
   _clearContainer() {
@@ -52,6 +58,18 @@ class Quiz {
     }
   }
 
+  _renderTimer() {
+    this._timerElement.classList.add('ps-1');
+    if (this._gameSettings.timer.onTimer) {
+      this._timerElement.textContent = `00:${
+        this._timerCount < 10 ? `0${this._timerCount}` : this._timerCount
+      }`;
+    } else {
+      this._timerElement.textContent = '00:00';
+    }
+    this._timerContainer.append(this._timerElement);
+  }
+
   _rednerHeader() {
     this._header.classList.add('container');
     if (checkGameMode() === 'artist') {
@@ -59,7 +77,11 @@ class Quiz {
     } else {
       this._heading = 'What is the name of this picture?';
     }
-    this._header.innerHTML = `<div class="row flex-row align-items-center justify-content-center p-2"><img src="logo.png" class="col-1 quiz-logo"></img><h3 class="col-6 text-center">${this._heading}</h3><div class="col-1"><img src="timer-picture.png" class="quiz-timer-logo"></img></div></div>`;
+    this._header.innerHTML = `<div class="row flex-row align-items-center justify-content-center p-2"><img src="logo.png" class="col-1 quiz-logo"></img><h3 class="col-6 text-center">${this._heading}</h3></div>`;
+    this._timerContainer.classList.add('col-1', 'd-flex', 'align-items-center');
+    this._timerContainer.innerHTML = `<img src="timer-picture.png" class="quiz-timer-logo"></img>`;
+    this._renderTimer();
+    this._header.firstElementChild.append(this._timerContainer);
     return this._header;
   }
 
@@ -103,9 +125,32 @@ class Quiz {
     myModal.show();
   }
 
+  _getGameSettings() {
+    this._gameSettings = JSON.parse(localStorage.getItem('settingsQuiz'));
+  }
+
+  _createTimer() {
+    this._timerCount = this._gameSettings.timer.time;
+    const run = () => {
+      setTimeout(() => {
+        if (this._timerCount > 0) {
+          this._timerCount -= 1;
+          this._renderTimer();
+          console.log(this._timerCount);
+          run();
+        }
+      }, 1000);
+    };
+
+    if (this._gameSettings.timer.onTimer) {
+      run();
+    }
+  }
+
   runQuiz() {
     this._renderQuestion();
     new QuizModel().subscribe(this);
+    return this._createTimer();
   }
 
   update({ action, result }) {
