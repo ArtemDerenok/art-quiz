@@ -18,7 +18,7 @@ class SettingModel {
     this._instance = this;
   }
 
-  set settings({ isSound, soundLevel, isTimer, timeValue }) {
+  set settings([isSound = false, soundLevel = 0, isTimer = false, timeValue = 1]) {
     this._settings = {
       sound: {
         onSound: isSound,

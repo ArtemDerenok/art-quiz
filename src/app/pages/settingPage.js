@@ -10,6 +10,7 @@ class SettingPage extends Page {
     this._buttonsContainer = document.createElement('div');
     this._saveButton = new Button('simple-btn', 'save-button', 'save').render();
     this._defaultButton = new Button('simple-btn', 'default-button', 'default').render();
+    this._settings = JSON.parse(localStorage.getItem('settingsQuiz'));
   }
 
   _createControlButtons() {
@@ -24,9 +25,13 @@ class SettingPage extends Page {
     this._main.classList.add('row', 'justify-content-around');
     this._main.innerHTML = `<div class="col-3 d-flex flex-column align-items-center gap-5 bg-light rounded">
       <img src="volume-on.png" class="pt-3"></img>
-      <input type="range" class="form-range" id="input-sound-value" value="0">
+      <input type="range" class="form-range" id="input-sound-value" value="${
+        this._settings.sound.volumeLevel
+      }">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="checkbox-volume">
+        <input class="form-check-input" type="checkbox" id="checkbox-volume" ${
+          this._settings.sound.onSound ? 'checked' : ''
+        }>
         <label class="form-check-label" for="checkbox-volume">
           ON/OFF
         </label>
@@ -34,9 +39,13 @@ class SettingPage extends Page {
       <h3>VOLUME</h3></div>
     <div class="col-3 d-flex flex-column align-items-center gap-5 bg-light rounded">
       <img src="timer-picture.png" class="pt-3"></img>
-      <input type="range" class="form-range" min="1" max="10" id="input-time-value" value="1">
+      <input type="range" class="form-range" min="1" max="30" id="input-time-value" value="${
+        this._settings.timer.time
+      }">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="checkbox-timer">
+        <input class="form-check-input" type="checkbox" id="checkbox-timer" ${
+          this._settings.timer.onTimer ? 'checked' : ''
+        }>
         <label class="form-check-label" for="checkbox-timer">
           ON/OFF
         </label>

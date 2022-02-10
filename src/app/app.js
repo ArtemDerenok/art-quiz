@@ -100,27 +100,23 @@ class App {
 
     settingsButtons.addEventListener('click', (event) => {
       if (event.target.closest('#save-button')) {
-        console.log('save');
+        new SettingModel().settings = [
+          soundCheckbox.checked,
+          inputSound.valueAsNumber,
+          timerCheckbox.checked,
+          inputTime.valueAsNumber,
+        ];
+        this._clearContainer();
+        this._body.append(new MainPage('main-page').render());
+        this._openSettengs();
+        this._openCategory();
       }
       if (event.target.closest('#default-button')) {
-        console.log('default settings');
+        new SettingModel().settings = [];
+        this._clearContainer();
+        this._body.append(new SettingPage('settings-page').render());
+        this._handleSettings();
       }
-    });
-
-    soundCheckbox.addEventListener('change', (event) => {
-      console.log(event.target.checked);
-    });
-
-    timerCheckbox.addEventListener('change', (event) => {
-      console.log(event.target.checked);
-    });
-
-    inputSound.addEventListener('change', (event) => {
-      console.log(event.target.value);
-    });
-
-    inputTime.addEventListener('change', (event) => {
-      console.log(event.target.value);
     });
   }
 
