@@ -11,6 +11,8 @@ class Quiz {
 
   _timer;
 
+  _myModal;
+
   constructor(categoryName, questionsArr) {
     this._questions = questionsArr;
     this._categoryName = categoryName;
@@ -102,12 +104,11 @@ class Quiz {
     return this._header;
   }
 
-  _showAnswerModal(resultAnswer) {
+  _renderAnswerModal(resultAnswer) {
     this._main.append(
       new AnswerModalWindow(this._questions[this._currentQuestion - 2], resultAnswer).render()
     );
-    const myModal = new Modal(document.getElementById('myModal'));
-    myModal.show();
+    this._emit('showAnswerModal');
   }
 
   _nextQuestion() {
@@ -138,17 +139,19 @@ class Quiz {
     this._clearContainer();
     console.log(`finish game. Result: ${resultAnswers}`);
     this._main.append(new FinishGameModalWindow(resultAnswers).render());
-    const myModal = new Modal(document.getElementById('myModalFinish'));
-    myModal.show();
+    this._myModal = new Modal(document.getElementById('myModalFinish'));
+    this._myModal.show();
+    this.deleteTimer();
   }
 
   _getGameSettings() {
     this._gameSettings = JSON.parse(localStorage.getItem('settingsQuiz'));
   }
 
-  _createTimer() {
+  createTimer() {
+    this._timerCount = this._gameSettings.timer.time;
     const run = () => {
-      setTimeout(() => {
+      this._timer = setTimeout(() => {
         if (this._timerCount > 0) {
           this._timerCount -= 1;
           this._renderTimer();
@@ -165,17 +168,21 @@ class Quiz {
     }
   }
 
+  deleteTimer() {
+    clearTimeout(this._timer);
+  }
+
   renderQuiz() {
     this._renderQuestion();
+    this.createTimer();
     new QuizModel().subscribe(this);
-    this._createTimer();
     return this;
   }
 
   update({ action, result }) {
     if (action === 'nextQuestion') {
       this._nextQuestion(result);
-      this._showAnswerModal(result);
+      this._renderAnswerModal(result);
     }
     if (action === 'finishGame') {
       this._showFinishModalWindow(result);

@@ -9,7 +9,8 @@ class AnswerModalWindow extends ModalWindow {
     this._container.id = 'myModal';
     this._pictureImage = document.createElement('img');
     this._resultLogo = document.createElement('img');
-    this._button.setAttribute('data-bs-dismiss', 'modal');
+    // this._button.setAttribute('data-bs-dismiss', 'modal');
+    this._button.id = 'next-question-btn';
     this._resultAnswer = result;
   }
 
