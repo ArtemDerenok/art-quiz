@@ -7,6 +7,8 @@ import QuizControler from './quiz/quizControler';
 import CategoryStatistics from './statistics/categoryStatistics';
 
 class App {
+  _quizControlerInstance;
+
   constructor() {
     this._body = document.body;
     this._categoryNumber = 0;
@@ -16,7 +18,7 @@ class App {
     this._body.innerHTML = '';
   }
 
-  _openSettengs() {
+  _openSettings() {
     const settingsBtn = document.getElementById('setting-button');
     settingsBtn.addEventListener('click', () => {
       this._clearContainer();
@@ -30,23 +32,25 @@ class App {
   }
 
   _handleFinishQuizButtons() {
-    const quizContainer = document.getElementById('quiz-container');
-    quizContainer.addEventListener('click', (event) => {
+    this._quizControlerInstance.quizInstance.mainContainer.addEventListener('click', (event) => {
       if (event.target.closest('#home-button') || event.target.closest('#myModalFinish')) {
+        this._quizControlerInstance.quizInstance.unsubscribe(this._quizControlerInstance);
         this._clearContainer();
         this._body.append(new MainPage('main-page').render());
-        this._openSettengs();
+        this._openSettings();
         this._openCategory();
       }
       if (event.target.closest('#next-quiz-button')) {
+        this._quizControlerInstance.quizInstance.unsubscribe(this._quizControlerInstance);
         this._clearContainer();
         this._body.append(new CategoryPage('category-page').render());
         this._handleCategoryNavButton();
         this._handleQuizStart();
       }
       if (event.target.closest('#yes-button')) {
+        this._quizControlerInstance.quizInstance.unsubscribe(this._quizControlerInstance);
         this._clearContainer();
-        new QuizControler()
+        this._quizControlerInstance
           .startQuiz(categoriesDataArr[this._categoryNumber])
           .then(() => this._handleFinishQuizButtons());
       }
@@ -61,6 +65,9 @@ class App {
         this._clearContainer();
         new QuizControler()
           .startQuiz(categoriesDataArr[this._categoryNumber])
+          .then((obj) => {
+            this._quizControlerInstance = obj;
+          })
           .then(() => this._handleFinishQuizButtons());
       }
     });
@@ -85,7 +92,7 @@ class App {
       if (event.target.id === 'home-button') {
         this._clearContainer();
         this._body.append(new MainPage('main-page').render());
-        this._openSettengs();
+        this._openSettings();
         this._openCategory();
       }
     });
@@ -108,7 +115,7 @@ class App {
         ];
         this._clearContainer();
         this._body.append(new MainPage('main-page').render());
-        this._openSettengs();
+        this._openSettings();
         this._openCategory();
       }
       if (event.target.closest('#default-button')) {
@@ -123,7 +130,7 @@ class App {
   runApp() {
     this._body.append(new MainPage('main-page').render());
     new SettingModel().checkLocalStorage();
-    this._openSettengs();
+    this._openSettings();
     this._openCategory();
     new CategoryStatistics().setLocalStorage();
   }

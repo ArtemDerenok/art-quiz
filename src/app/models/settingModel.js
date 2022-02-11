@@ -41,7 +41,7 @@ class SettingModel {
     localStorage.setItem('settingsQuiz', json);
   }
 
-  _getLocalStorage() {
+  getLocalStorage() {
     return JSON.parse(localStorage.getItem('settingsQuiz'));
   }
 

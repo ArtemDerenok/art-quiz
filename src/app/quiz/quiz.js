@@ -26,6 +26,23 @@ class Quiz {
     this._timerContainer = document.createElement('div');
     this._timerElement = document.createElement('span');
     this._timerCount = this._gameSettings.timer.time;
+    this._observers = [];
+  }
+
+  subscribe(observer) {
+    this._observers.push(observer);
+  }
+
+  unsubscribe(observer) {
+    this._observers = this._observers.filter((obs) => obs !== observer);
+  }
+
+  _emit(action) {
+    this._observers.forEach((obs) => obs.update(action));
+  }
+
+  get mainContainer() {
+    return this._main;
   }
 
   _clearContainer() {
@@ -130,7 +147,6 @@ class Quiz {
   }
 
   _createTimer() {
-    this._timerCount = this._gameSettings.timer.time;
     const run = () => {
       setTimeout(() => {
         if (this._timerCount > 0) {
@@ -138,6 +154,8 @@ class Quiz {
           this._renderTimer();
           console.log(this._timerCount);
           run();
+        } else {
+          this._emit('endTime');
         }
       }, 1000);
     };
@@ -147,10 +165,11 @@ class Quiz {
     }
   }
 
-  runQuiz() {
+  renderQuiz() {
     this._renderQuestion();
     new QuizModel().subscribe(this);
-    return this._createTimer();
+    this._createTimer();
+    return this;
   }
 
   update({ action, result }) {

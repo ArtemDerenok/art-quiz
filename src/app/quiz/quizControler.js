@@ -1,22 +1,22 @@
+import SettingModel from '../models/settingModel';
 import Quiz from './quiz';
 import QuizModel from './quizModel';
 
 class QuizControler {
-  static _instance;
-
   _questions;
 
-  _timer;
+  _quizInstance;
 
   _gameSettings;
 
+  _categoryName;
+
   constructor() {
-    if (QuizControler._instance) {
-      return QuizControler._instance;
-    }
-    this._categoryName = '';
     this._body = document.body;
-    QuizControler._instance = this;
+  }
+
+  get quizInstance() {
+    return this._quizInstance;
   }
 
   _clearContainer() {
@@ -24,26 +24,28 @@ class QuizControler {
   }
 
   _handleAnswers() {
-    const quizContainer = document.getElementById('quiz-container');
-    quizContainer.addEventListener('click', (event) => {
+    this._quizInstance.mainContainer.addEventListener('click', (event) => {
       if (event.target.closest('.card')) {
         new QuizModel().checkAnswer(event.target.closest('.card').dataset.answer);
       }
     });
   }
 
-  _getGameSettings() {
-    this._gameSettings = JSON.parse(localStorage.getItem('settingsQuiz'));
+  update(action) {
+    if (action === 'endTime') {
+      console.log('Время вышло');
+    }
   }
 
   async startQuiz(categoryName) {
-    this._getGameSettings();
+    this._gameSettings = new SettingModel().getLocalStorage();
     this._categoryName = categoryName;
     this._questions = await new QuizModel().getQuestions(this._categoryName);
     new QuizModel().resetStatistics();
-    this._timer = new Quiz(this._categoryName, this._questions).runQuiz();
+    this._quizInstance = new Quiz(this._categoryName, this._questions).renderQuiz();
+    this._quizInstance.subscribe(this);
     this._handleAnswers();
-    console.log(this._timer);
+    return this;
   }
 }
 
