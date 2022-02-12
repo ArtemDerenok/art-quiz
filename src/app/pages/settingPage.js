@@ -25,7 +25,7 @@ class SettingPage extends Page {
     this._main.classList.add('row', 'justify-content-around');
     this._main.innerHTML = `<div class="col-3 d-flex flex-column align-items-center gap-5 bg-light rounded">
       <img src="volume-on.png" class="pt-3"></img>
-      <input type="range" class="form-range" id="input-sound-value" value="${
+      <input type="range" class="form-range" min="0" max="1" step="0.1" id="input-sound-value" value="${
         this._settings.sound.volumeLevel
       }">
       <div class="form-check">

@@ -1,3 +1,4 @@
+import ClickAudio from './components/audioPlayer/clickAudio';
 import { categoriesDataArr } from './data/categoriesData';
 import SettingModel from './models/settingModel';
 import CategoryPage from './pages/categoryPage';
@@ -21,6 +22,9 @@ class App {
   _openSettings() {
     const settingsBtn = document.getElementById('setting-button');
     settingsBtn.addEventListener('click', () => {
+      if (new SettingModel().soundModeValue) {
+        new ClickAudio().playAudio();
+      }
       this._clearContainer();
       this._body.append(new SettingPage('settings-page').render());
       this._handleSettings();
@@ -34,6 +38,9 @@ class App {
   _handleFinishQuizButtons() {
     this._quizControlerInstance.quizInstance.mainContainer.addEventListener('click', (event) => {
       if (event.target.closest('#home-button') || event.target.closest('#myModalFinish')) {
+        if (new SettingModel().soundModeValue) {
+          new ClickAudio().playAudio();
+        }
         this._quizControlerInstance.quizInstance.unsubscribe(this._quizControlerInstance);
         this._clearContainer();
         this._body.append(new MainPage('main-page').render());
@@ -41,6 +48,9 @@ class App {
         this._openCategory();
       }
       if (event.target.closest('#next-quiz-button')) {
+        if (new SettingModel().soundModeValue) {
+          new ClickAudio().playAudio();
+        }
         this._quizControlerInstance.quizInstance.unsubscribe(this._quizControlerInstance);
         this._clearContainer();
         this._body.append(new CategoryPage('category-page').render());
@@ -48,6 +58,9 @@ class App {
         this._handleQuizStart();
       }
       if (event.target.closest('#yes-button')) {
+        if (new SettingModel().soundModeValue) {
+          new ClickAudio().playAudio();
+        }
         this._quizControlerInstance.quizInstance.unsubscribe(this._quizControlerInstance);
         this._clearContainer();
         this._quizControlerInstance
@@ -61,6 +74,9 @@ class App {
     const categoriesContainer = document.getElementById('categories-container');
     categoriesContainer.addEventListener('click', (event) => {
       if (event.target.closest('div[data-title]')) {
+        if (new SettingModel().soundModeValue) {
+          new ClickAudio().playAudio();
+        }
         this._categoryNumber = +event.target.closest('div[data-title]').dataset.title;
         this._clearContainer();
         new QuizControler()
@@ -77,6 +93,9 @@ class App {
     const categoryBtns = document.getElementById('category-btns');
     categoryBtns.addEventListener('click', (event) => {
       if (event.target.closest('div[id]')) {
+        if (new SettingModel().soundModeValue) {
+          new ClickAudio().playAudio();
+        }
         App.setGameMode(event.target.closest('div[id]').id);
         this._clearContainer();
         this._body.append(new CategoryPage('category-page').render());
@@ -90,6 +109,9 @@ class App {
     const heading = document.getElementById('category-heading');
     heading.addEventListener('click', (event) => {
       if (event.target.id === 'home-button') {
+        if (new SettingModel().soundModeValue) {
+          new ClickAudio().playAudio();
+        }
         this._clearContainer();
         this._body.append(new MainPage('main-page').render());
         this._openSettings();
@@ -107,6 +129,9 @@ class App {
 
     settingsButtons.addEventListener('click', (event) => {
       if (event.target.closest('#save-button')) {
+        if (new SettingModel().soundModeValue) {
+          new ClickAudio().playAudio();
+        }
         new SettingModel().settings = [
           soundCheckbox.checked,
           inputSound.valueAsNumber,
@@ -119,11 +144,20 @@ class App {
         this._openCategory();
       }
       if (event.target.closest('#default-button')) {
+        if (new SettingModel().soundModeValue) {
+          new ClickAudio().playAudio();
+        }
         new SettingModel().settings = [];
         this._clearContainer();
         this._body.append(new SettingPage('settings-page').render());
         this._handleSettings();
       }
+    });
+
+    inputSound.addEventListener('change', (event) => {
+      new ClickAudio().stopAudio();
+      new ClickAudio().setVolume(event.target.value);
+      new ClickAudio().playAudio();
     });
   }
 

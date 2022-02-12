@@ -57,7 +57,6 @@ class QuizModel {
   checkAnswer(answer) {
     if (checkGameMode() === 'artist') {
       if (answer === this._questions[this._currentQuestion].author) {
-        console.log('Correct');
         if (this._currentQuestion === 9) {
           this._updateStatistics('artist');
           this._finishGame();
@@ -66,19 +65,14 @@ class QuizModel {
           this._emit({ action: 'nextQuestion', result: true });
           this._currentQuestion += 1;
         }
-        console.log(this._currentQuestion);
+      } else if (this._currentQuestion === 9) {
+        this._finishGame();
       } else {
-        console.log('Incorrect');
-        if (this._currentQuestion === 9) {
-          this._finishGame();
-        } else {
-          this._emit({ action: 'nextQuestion', result: false });
-          this._currentQuestion += 1;
-        }
+        this._emit({ action: 'nextQuestion', result: false });
+        this._currentQuestion += 1;
       }
     } else if (checkGameMode() === 'picture') {
       if (answer === this._questions[this._currentQuestion].name) {
-        console.log('Correct');
         if (this._currentQuestion === 9) {
           this._updateStatistics('picture');
           this._updateStatistics();
@@ -88,14 +82,11 @@ class QuizModel {
           this._emit({ action: 'nextQuestion', result: true });
           this._currentQuestion += 1;
         }
+      } else if (this._currentQuestion === 9) {
+        this._finishGame();
       } else {
-        console.log('Incorrect');
-        if (this._currentQuestion === 9) {
-          this._finishGame();
-        } else {
-          this._emit({ action: 'nextQuestion', result: false });
-          this._currentQuestion += 1;
-        }
+        this._emit({ action: 'nextQuestion', result: false });
+        this._currentQuestion += 1;
       }
     }
   }

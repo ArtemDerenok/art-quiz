@@ -15,7 +15,7 @@ class SettingModel {
         time: 0,
       },
     };
-    this._instance = this;
+    SettingModel._instance = this;
   }
 
   set settings([isSound = false, soundLevel = 0, isTimer = false, timeValue = 1]) {
@@ -36,8 +36,12 @@ class SettingModel {
     return this._settings;
   }
 
+  get soundModeValue() {
+    return this._settings.sound.onSound;
+  }
+
   _setLocalStorage() {
-    const json = JSON.stringify(this.settings);
+    const json = JSON.stringify(this._settings);
     localStorage.setItem('settingsQuiz', json);
   }
 
@@ -48,6 +52,8 @@ class SettingModel {
   checkLocalStorage() {
     if (!localStorage.getItem('settingsQuiz')) {
       this._setLocalStorage();
+    } else {
+      this._settings = this.getLocalStorage();
     }
   }
 }

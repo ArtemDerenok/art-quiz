@@ -2,7 +2,9 @@ import { Modal } from 'bootstrap';
 import checkGameMode from '../../utils/checkGameMode';
 import getRandomNum from '../../utils/getRandomNum';
 import AnswerModalWindow from '../components/answerModalWindow';
+import EndRoundAudio from '../components/audioPlayer/endRoundAudio';
 import FinishGameModalWindow from '../components/finishGameModalWindow';
+import SettingModel from '../models/settingModel';
 import Question from './question';
 import QuizModel from './quizModel';
 
@@ -24,7 +26,7 @@ class Quiz {
     this._currentQuestion = 0;
     this._heading = '';
     this._wrongAnswers = [];
-    this._gameSettings = JSON.parse(localStorage.getItem('settingsQuiz'));
+    this._gameSettings = new SettingModel().settings;
     this._timerContainer = document.createElement('div');
     this._timerElement = document.createElement('span');
     this._timerCount = this._gameSettings.timer.time;
@@ -39,8 +41,8 @@ class Quiz {
     this._observers = this._observers.filter((obs) => obs !== observer);
   }
 
-  _emit(action) {
-    this._observers.forEach((obs) => obs.update(action));
+  _emit(action, result = false) {
+    this._observers.forEach((obs) => obs.update(action, result));
   }
 
   get mainContainer() {
@@ -108,7 +110,7 @@ class Quiz {
     this._main.append(
       new AnswerModalWindow(this._questions[this._currentQuestion - 2], resultAnswer).render()
     );
-    this._emit('showAnswerModal');
+    this._emit('showAnswerModal', resultAnswer);
   }
 
   _nextQuestion() {
@@ -126,7 +128,6 @@ class Quiz {
     this._body.append(this._main);
     this._wrongAnswers = [];
     this._setRightAnswer();
-    console.log(this._rightAnswer);
     this._currentQuestion += 1;
   }
 
@@ -137,10 +138,14 @@ class Quiz {
 
   _showFinishModalWindow(resultAnswers) {
     this._clearContainer();
-    console.log(`finish game. Result: ${resultAnswers}`);
     this._main.append(new FinishGameModalWindow(resultAnswers).render());
     this._myModal = new Modal(document.getElementById('myModalFinish'));
     this._myModal.show();
+
+    if (this._gameSettings.sound.onSound) {
+      new EndRoundAudio().playAudio();
+    }
+
     this.deleteTimer();
   }
 
@@ -155,7 +160,6 @@ class Quiz {
         if (this._timerCount > 0) {
           this._timerCount -= 1;
           this._renderTimer();
-          console.log(this._timerCount);
           run();
         } else {
           this._emit('endTime');

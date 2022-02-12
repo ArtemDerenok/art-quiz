@@ -27,7 +27,6 @@ class CategoryPage extends Page {
     this._heading.textContent = 'CATEGORIES';
     this._headingContainer.append(new Button('home-btn', 'home-button', 'HOME').render());
     this._headingContainer.append(this._heading);
-    this._headingContainer.append(new Button('score-btn', 'score-button', 'SCORE').render());
     return this._headingContainer;
   }
 
