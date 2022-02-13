@@ -1,5 +1,3 @@
-import CategoryStatistics from '../statistics/categoryStatistics';
-
 class CategoryCard {
   _count;
 
@@ -24,9 +22,13 @@ class CategoryCard {
 
   _getCount() {
     if (this._gameMode === 'artist-category') {
-      this._count = new CategoryStatistics().statistics[this._title].countArtistMode;
+      this._count = JSON.parse(localStorage.getItem('categoryStatistics'))[
+        this._title
+      ].countArtistMode;
     } else {
-      this._count = new CategoryStatistics().statistics[this._title].countPictureMode;
+      this._count = JSON.parse(localStorage.getItem('categoryStatistics'))[
+        this._title
+      ].countPictureMode;
     }
   }
 
