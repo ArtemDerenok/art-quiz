@@ -98,7 +98,7 @@ class Quiz {
     } else {
       this._heading = 'What is the name of this picture?';
     }
-    this._header.innerHTML = `<div class="row flex-row align-items-center justify-content-center p-2"><img src="logo.png" class="col-1 quiz-logo"></img><h3 class="col-6 text-center">${this._heading}</h3></div>`;
+    this._header.innerHTML = `<div class="row align-items-center justify-content-center p-2"><img src="logo.png" class="col quiz-logo"></img><h3 class="col-6 text-center">${this._heading}</h3></div>`;
     this._timerContainer.classList.add('col-1', 'd-flex', 'align-items-center');
     this._timerContainer.innerHTML = `<img src="timer-picture.png" class="quiz-timer-logo"></img>`;
     this._renderTimer();
@@ -128,6 +128,7 @@ class Quiz {
     this._body.append(this._main);
     this._wrongAnswers = [];
     this._setRightAnswer();
+    console.log(this._rightAnswer);
     this._currentQuestion += 1;
   }
 

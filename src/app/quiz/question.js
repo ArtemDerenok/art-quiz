@@ -32,7 +32,7 @@ class Question {
     this._image.src = this._src;
     this._image.classList.add('img-fluid');
     this._container.append(this._image);
-    this._answersContainer.classList.add('row', 'row-cols-2', 'w-50', 'pt-5');
+    this._answersContainer.classList.add('row', 'row-cols-2', 'w-lg-100', 'pt-5');
     this._answersContainer.id = 'answers-container';
 
     for (let i = 0; i < 4; i += 1) {

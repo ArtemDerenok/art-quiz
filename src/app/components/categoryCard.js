@@ -5,7 +5,7 @@ class CategoryCard {
 
   constructor(title, number) {
     this._card = document.createElement('div');
-    this._card.classList.add('col');
+    this._card.classList.add('col-lg-2');
     this._title = title;
     this._id = `category-${this._title}`;
     this._card.id = this._id;

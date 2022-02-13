@@ -14,7 +14,7 @@ class CategoryPage extends Page {
     const result = [];
     for (let i = 0; i < Math.ceil(categoriesDataArr.length / 5); i += 1) {
       const row = document.createElement('div');
-      row.classList.add('row', 'pb-3');
+      row.classList.add('row', 'pb-3', 'gy-5', 'justify-content-between');
       result.push(row);
     }
     return result;

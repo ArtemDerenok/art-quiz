@@ -22,8 +22,8 @@ class SettingPage extends Page {
   }
 
   _createMainContent() {
-    this._main.classList.add('row', 'justify-content-around');
-    this._main.innerHTML = `<div class="col-3 d-flex flex-column align-items-center gap-5 bg-light rounded">
+    this._main.classList.add('row', 'justify-content-around', 'gy-5');
+    this._main.innerHTML = `<div class="col-lg-3 col-5 d-flex flex-column align-items-center gap-5 bg-light rounded">
       <img src="volume-on.png" class="pt-3"></img>
       <input type="range" class="form-range" min="0" max="1" step="0.1" id="input-sound-value" value="${
         this._settings.sound.volumeLevel
@@ -37,7 +37,7 @@ class SettingPage extends Page {
         </label>
       </div>
       <h3>VOLUME</h3></div>
-    <div class="col-3 d-flex flex-column align-items-center gap-5 bg-light rounded">
+    <div class="col-lg-3 col-5 d-flex flex-column align-items-center gap-5 bg-light rounded">
       <img src="timer-picture.png" class="pt-3"></img>
       <input type="range" class="form-range" min="1" max="30" id="input-time-value" value="${
         this._settings.timer.time
