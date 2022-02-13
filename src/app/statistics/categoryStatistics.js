@@ -3,7 +3,7 @@ import { categoriesStatistics } from '../data/categoriesData';
 class CategoryStatistics {
   static _instance;
 
-  _statistics;
+  statistics;
 
   constructor() {
     if (CategoryStatistics._instance) {
@@ -13,11 +13,7 @@ class CategoryStatistics {
   }
 
   _getLocalStorage() {
-    this._statistics = JSON.parse(localStorage.getItem('categoryStatistics'));
-  }
-
-  get statistics() {
-    return this._statistics;
+    this.statistics = JSON.parse(localStorage.getItem('categoryStatistics'));
   }
 
   updateLocalStorage() {
