@@ -128,7 +128,6 @@ class Quiz {
     this._body.append(this._main);
     this._wrongAnswers = [];
     this._setRightAnswer();
-    console.log(this._rightAnswer);
     this._currentQuestion += 1;
   }
 

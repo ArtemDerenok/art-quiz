@@ -17,6 +17,8 @@
     "rules": {
         "no-underscore-dangle": "off",
         "no-continue": "off",
-        "no-constructor-return": "off"
+        "no-constructor-return": "off",
+        "no-new": "off",
+        "class-methods-use-this":"off"
     }
 }
