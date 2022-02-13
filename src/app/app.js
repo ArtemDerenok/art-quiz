@@ -163,7 +163,6 @@ class App {
 
   runApp() {
     this._body.append(new MainPage('main-page').render());
-    new SettingModel().checkLocalStorage();
     this._openSettings();
     this._openCategory();
     new CategoryStatistics().setLocalStorage();
