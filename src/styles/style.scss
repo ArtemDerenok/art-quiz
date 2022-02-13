@@ -1,6 +1,6 @@
 body {
-  background: url('../assets/background-1.png');
-  background-size: 100% 100%;
+  background: url('../assets/background-1.png') no-repeat;
+  background-size: cover;
 }
 
 .setting-btn::before {
