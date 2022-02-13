@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+
 body {
   background: url('../assets/background-1.png') no-repeat;
   background-size: cover;
+}
+
+.cursor {
+  cursor: pointer;
 }
 
 .setting-btn::before {
@@ -34,6 +40,11 @@ body {
   align-self: center;
 }
 
+.setting-btn:hover {
+  border-radius: 10px;
+  transition: 0.7s;
+}
+
 .home-btn::before {
   background-image: url('../assets/home-btn.png');
   background-repeat: no-repeat;
@@ -63,6 +74,11 @@ body {
   text-transform: uppercase;
   position: relative;
   align-self: center;
+}
+
+.home-btn:hover {
+  border-radius: 10px;
+  transition: 0.7s;
 }
 
 .score-btn::before {
@@ -125,4 +141,9 @@ body {
   text-transform: uppercase;
   position: relative;
   align-self: center;
+}
+
+.simple-btn:hover {
+  border-radius: 10px;
+  transition: 0.7s;
 }

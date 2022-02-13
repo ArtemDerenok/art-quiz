@@ -9,13 +9,13 @@ class MainPage extends Page {
   _createMainContent() {
     this._main.classList.add('row', 'p-5', 'justify-content-around', 'gy-5');
     this._main.id = 'category-btns';
-    this._main.innerHTML = `<div class="card col-lg-4" id="artist-category">
+    this._main.innerHTML = `<div class="card col-lg-4 cursor" id="artist-category">
   <img src="artists-quiz.png" class="card-img-top" alt="">
   <div class="card-body">
     <p class="card-text">ARTISTS  QUIZ</p>
   </div>
 </div>
-<div class="card col-lg-4" id="pictures-category">
+<div class="card col-lg-4 cursor" id="pictures-category">
   <img src="pictures-quiz.png" class="card-img-top" alt="">
   <div class="card-body">
     <p class="card-text">PICTURES  QUIZ</p>

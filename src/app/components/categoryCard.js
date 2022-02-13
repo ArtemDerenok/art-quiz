@@ -32,7 +32,7 @@ class CategoryCard {
 
   render() {
     this._getCount();
-    this._card.innerHTML += `<div class="card" data-title="${this._number - 1}">
+    this._card.innerHTML += `<div class="card cursor" data-title="${this._number - 1}">
       <img src="${this._checkCount()}" class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title card-title-font">${this._title}</h5>

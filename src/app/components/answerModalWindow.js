@@ -9,7 +9,6 @@ class AnswerModalWindow extends ModalWindow {
     this._container.id = 'myModal';
     this._pictureImage = document.createElement('img');
     this._resultLogo = document.createElement('img');
-    // this._button.setAttribute('data-bs-dismiss', 'modal');
     this._button.id = 'next-question-btn';
     this._resultAnswer = result;
   }
@@ -26,7 +25,7 @@ class AnswerModalWindow extends ModalWindow {
 
   _createMainContent() {
     this._modalDialog.append(this._modalContent);
-    this._pictureImage.classList.add('img-fluid');
+    this._pictureImage.classList.add('img-fluid', 'rounded-3', 'shadow');
     this._pictureImage.src = `https://raw.githubusercontent.com/ArtemDerenok/image-data/master/img/${this._answer.imageNum}.jpg`;
     this._modalBody.append(this._pictureImage);
     this._modalBody.innerHTML += `<p>${this._answer.name}</p><p>${this._answer.author}</p><p>${this._answer.year}</p>`;

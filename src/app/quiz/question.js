@@ -30,17 +30,17 @@ class Question {
   _createMainContent() {
     this._container.classList.add('container', 'd-flex', 'flex-column', 'align-items-center');
     this._image.src = this._src;
-    this._image.classList.add('img-fluid');
+    this._image.classList.add('img-fluid', 'shadow', 'rounded-3');
     this._container.append(this._image);
     this._answersContainer.classList.add('row', 'row-cols-2', 'w-lg-100', 'pt-5');
     this._answersContainer.id = 'answers-container';
 
     for (let i = 0; i < 4; i += 1) {
       if (i === this._rightAnswerPositionNumber) {
-        this._answersContainer.innerHTML += `<div class="card col" data-answer="${this._rightAnswer}"><div class="card-body"><h5 class="card-title">${this._rightAnswer}</h5></div>`;
+        this._answersContainer.innerHTML += `<div class="card col cursor" data-answer="${this._rightAnswer}"><div class="card-body"><h5 class="card-title">${this._rightAnswer}</h5></div>`;
       }
       if (i !== 3) {
-        this._answersContainer.innerHTML += `<div class="card col" data-answer="${
+        this._answersContainer.innerHTML += `<div class="card col cursor" data-answer="${
           this._wrongAnswers[i][this._wrongAnwser]
         }"><div class="card-body"><h5 class="card-title">${
           this._wrongAnswers[i][this._wrongAnwser]
