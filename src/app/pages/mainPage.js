@@ -1,9 +1,10 @@
+import Button from '../components/button';
 import Page from '../templates/page';
 
 class MainPage extends Page {
   constructor(idPage) {
     super(idPage);
-    this._settingButton = document.createElement('button');
+    this._settingButton = new Button('setting-btn', 'setting-button', 'settings').render();
   }
 
   _createMainContent() {
@@ -27,11 +28,9 @@ class MainPage extends Page {
   render() {
     this._container.append(this._createHeader());
     this._container.append(this._createMainContent());
-    this._settingButton.textContent = 'SETTINGS';
-    this._settingButton.classList.add('setting-btn');
-    this._settingButton.id = 'setting-button';
     this._container.append(this._settingButton);
     return this._container;
   }
 }
+
 export default MainPage;
